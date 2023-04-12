@@ -1,6 +1,5 @@
 package com.usjt.projetoa3.ui.theme
 
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -11,12 +10,44 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.usjt.projetoa3.R
+
+@Composable
+fun ShowLogo() {
+    Column(
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Box(
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                contentDescription = "My Health Logo",
+                modifier = Modifier
+                    .padding(top = 40.dp, bottom = 5.dp)
+                    .size(300.dp)
+            )
+            Text(
+                text = "My Health",
+                fontWeight = FontWeight.Bold,
+                textDecoration = TextDecoration.Underline,
+                textAlign = TextAlign.Center,
+                fontSize = 28.sp,
+                modifier = Modifier.padding(top = 180.dp)
+            )
+        }
+    }
+}
 
 @Composable
 fun LoginInput() {
@@ -92,6 +123,7 @@ fun DefaultPreview() {
         color = MaterialTheme.colors.background
     ) {
         ProjetoA3Theme {
+            ShowLogo()
             LoginInput()
             NewUserButtonForgetMyPass()
         }
