@@ -91,22 +91,28 @@ fun LoginInput() {
 }
 
 @Composable
-fun NewUserButtonForgetMyPass() {
+fun BottomButtons(
+    topButtonText: String,
+    bottomButtonText: String,
+) {
     Column(
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().padding(start = 70.dp, end = 70.dp)
     ) {
-        Button(onClick = { /*TODO*/ }) {
+        Button(
+            onClick = { /*TODO*/ },
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Text(
-                text = "CADASTRAR-SE",
+                text = topButtonText,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .padding(start = 30.dp,end = 30.dp)
+//                    .padding(start = 30.dp,end = 30.dp)
             )
         }
         Text(
-            text = "Esqueci minha senha",
+            text = bottomButtonText,
             textDecoration = TextDecoration.Underline,
             modifier = Modifier
                 .padding(top = 5.dp, bottom = 40.dp)
@@ -125,7 +131,7 @@ fun DefaultPreview() {
         ProjetoA3Theme {
             ShowLogo()
             LoginInput()
-            NewUserButtonForgetMyPass()
+            BottomButtons("CADASTRE-SE", "Esqueci minha senha")
         }
     }
 }
