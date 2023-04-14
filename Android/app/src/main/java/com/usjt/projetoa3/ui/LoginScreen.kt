@@ -31,11 +31,11 @@ fun ShowLogo() {
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                painter = painterResource(id = R.drawable.projetoa3_logo),
                 contentDescription = "My Health Logo",
                 modifier = Modifier
-                    .padding(top = 40.dp, bottom = 5.dp)
-                    .size(300.dp)
+                    .padding(top = 60.dp, bottom = 5.dp)
+                    .size(150.dp)
             )
             Text(
                 text = "My Health",
@@ -43,7 +43,7 @@ fun ShowLogo() {
                 textDecoration = TextDecoration.Underline,
                 textAlign = TextAlign.Center,
                 fontSize = 28.sp,
-                modifier = Modifier.padding(top = 180.dp)
+                modifier = Modifier.padding(top = 200.dp)
             )
         }
     }
