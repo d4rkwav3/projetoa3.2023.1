@@ -123,7 +123,7 @@ fun BottomButtons(
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
+fun LoginPreview() {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background

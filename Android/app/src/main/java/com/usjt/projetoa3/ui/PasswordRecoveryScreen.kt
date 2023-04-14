@@ -80,7 +80,7 @@ fun ScreenInfo() {
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
+fun PasswordRecoveryPreview() {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
