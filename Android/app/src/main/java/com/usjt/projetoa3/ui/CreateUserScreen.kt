@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonColors
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -240,7 +239,10 @@ fun CreateUserPreview() {
             ShowLogo()
             CreateUserAccount()
             AccountTypeButtons()
-            BottomButtons(topButtonText = "CONTINUAR", bottomButtonText = "Tela de Login")
+            BottomButtons(
+                topButtonText = R.string.button_continue_upper,
+                bottomButtonText = R.string.login_screen_text
+            )
         }
     }
 }

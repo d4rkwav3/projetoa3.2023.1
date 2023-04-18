@@ -1,5 +1,6 @@
 package com.usjt.projetoa3.ui.theme
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -11,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -31,7 +33,7 @@ fun ShowLogo() {
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.projetoa3_logo),
+                painter = painterResource(id = R.drawable.app_logo),
                 contentDescription = "My Health Logo",
                 modifier = Modifier
                     .padding(top = 60.dp, bottom = 5.dp)
@@ -92,30 +94,50 @@ fun LoginInput() {
 
 @Composable
 fun BottomButtons(
-    topButtonText: String,
-    bottomButtonText: String,
+    @StringRes topButtonText: Int,
+    @StringRes bottomButtonText: Int,
 ) {
     Column(
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth().padding(start = 70.dp, end = 70.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 70.dp, end = 70.dp)
     ) {
         Button(
             onClick = { /*TODO*/ },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = topButtonText,
+                text = stringResource(id = topButtonText),
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
-//                    .padding(start = 30.dp,end = 30.dp)
             )
         }
         Text(
-            text = bottomButtonText,
+            text = stringResource(id = bottomButtonText),
             textDecoration = TextDecoration.Underline,
             modifier = Modifier
                 .padding(top = 5.dp, bottom = 40.dp)
+                .clickable { /*TODO*/ }
+        )
+    }
+}
+
+@Composable
+fun RegisterClickableText(
+    @StringRes clickableText: Int,
+) {
+    Column(
+        verticalArrangement = Arrangement.Bottom,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            text = stringResource(id = clickableText),
+            fontWeight = FontWeight.Bold,
+            textDecoration = TextDecoration.Underline,
+            modifier = Modifier
+                .padding(top = 160.dp, bottom = 40.dp)
                 .clickable { /*TODO*/ }
         )
     }
@@ -130,8 +152,19 @@ fun LoginPreview() {
     ) {
         ProjetoA3Theme {
             ShowLogo()
-            LoginInput()
-            BottomButtons("CADASTRE-SE", "Esqueci minha senha")
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Spacer(modifier = Modifier.height(60.dp))
+                LoginInput()
+                Spacer(modifier = Modifier.height(40.dp))
+                BottomButtons(
+                    topButtonText = R.string.button_sign_in_upper,
+                    bottomButtonText = R.string.forgot_my_password,
+                )
+            }
+            RegisterClickableText(clickableText = R.string.register)
         }
     }
 }

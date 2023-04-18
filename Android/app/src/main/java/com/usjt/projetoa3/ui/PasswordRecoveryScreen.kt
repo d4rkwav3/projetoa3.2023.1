@@ -1,7 +1,7 @@
 package com.usjt.projetoa3.ui
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,27 +18,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.usjt.projetoa3.R
 import com.usjt.projetoa3.ui.theme.BottomButtons
 import com.usjt.projetoa3.ui.theme.ProjetoA3Theme
 import com.usjt.projetoa3.ui.theme.ShowLogo
 
 @Composable
-fun ConfirmButton() {
-    Column(
-        verticalArrangement = Arrangement.Bottom,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-
-    }
-}
-
-@Composable
-fun ScreenInfo() {
+fun PasswordRecoveryInfo(
+    @StringRes title: Int,
+    @StringRes text: Int,
+    @StringRes textFieldHint: Int,
+    @StringRes iconContentDescription: Int,
+) {
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -47,24 +43,24 @@ fun ScreenInfo() {
             .padding(start = 30.dp, end = 30.dp)
     ) {
         Text(
-            text = "Recuperação de Senha",
+            text = stringResource(id = title),
             textDecoration = TextDecoration.Underline,
             fontSize = 22.sp,
             modifier = Modifier.padding(bottom = 20.dp, top = 300.dp)
         )
         Text(
-            text = "Informe seu e-mail que enviaremos um link para a recuperação de senha",
+            text = stringResource(id = text),
             fontSize = 16.sp,
             modifier = Modifier.padding(vertical = 20.dp)
         )
         TextField(
             value = "",
             onValueChange = { /*TODO*/ },
-            label = { Text(text = "E-mail") },
+            label = { Text(text = stringResource(id = textFieldHint)) },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Email,
-                    contentDescription = "",
+                    contentDescription = stringResource(id = iconContentDescription),
                     tint = Color.Black
                 )
             },
@@ -87,8 +83,15 @@ fun PasswordRecoveryPreview() {
     ) {
         ProjetoA3Theme() {
             ShowLogo()
-            ScreenInfo()
-            BottomButtons(topButtonText = "ENVIAR", bottomButtonText = "Tela de Login")
+            PasswordRecoveryInfo(
+                title = R.string.password_recovery_title,
+                text = R.string.password_recovery_text,
+                textFieldHint = R.string.email,
+                iconContentDescription = R.string.email_icon_description
+            )
+            BottomButtons(
+                topButtonText = R.string.button_send_upper,
+                bottomButtonText = R.string.login_screen_text)
         }
     }
 }

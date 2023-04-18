@@ -1,3 +1,20 @@
 <resources>
+    <!-- General -->
     <string name="app_name">Projeto A3</string>
+    <string name="password_recovery_title">Recuperação de Senha</string>
+    <string name="password_recovery_text">Informe seu e-mail, que lhe enviaremos um link para recuperação de senha.</string>
+    <string name="email">E-mail</string>
+    <string name="email_icon_description">Ícone de uma carta fechada (e-mail)</string>
+    
+    <!--Button Text-->
+    <string name="button_send_upper">ENVIAR</string>
+    <string name="button_continue_upper">CONTINUAR</string>
+    <string name="button_free_upper">GRATUITA</string>
+    <string name="button_paid_upper">PAGA</string>
+    <string name="button_sign_in_upper">ENTRAR</string>
+
+    <!--Clickable Text-->
+    <string name="login_screen_text">Tela de Login</string>
+    <string name="forgot_my_password">Esqueci minha senha</string>
+    <string name="register">CADASTRE-SE</string>
 </resources>
