@@ -1,4 +1,4 @@
-package com.usjt.projetoa3.ui.theme
+package com.usjt.projetoa3.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.usjt.projetoa3.R
+import com.usjt.projetoa3.ui.theme.ProjetoA3Theme
 
 @Composable
 fun ShowLogo() {

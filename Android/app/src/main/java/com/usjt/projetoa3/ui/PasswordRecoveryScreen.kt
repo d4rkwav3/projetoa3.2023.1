@@ -24,9 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.usjt.projetoa3.R
-import com.usjt.projetoa3.ui.theme.BottomButtons
 import com.usjt.projetoa3.ui.theme.ProjetoA3Theme
-import com.usjt.projetoa3.ui.theme.ShowLogo
 
 @Composable
 fun PasswordRecoveryInfo(
