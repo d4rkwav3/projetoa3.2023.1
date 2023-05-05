@@ -1,6 +1,6 @@
 package com.usjt.projetoa3.model
 
-class EmailValidation : Validation() {
+class EmailValidation {
     val MIN_EMAIL_LENGTH = 10
     val MIN_USERNAME_LENGTH = 3
     val MIN_DOMAIN_LENGTH = 5
@@ -8,11 +8,10 @@ class EmailValidation : Validation() {
     val EXPECTED_CHARS = arrayOf('@', '.')
 
     fun validateEmail(email: String): Boolean {
-        val atSign = email.contains(this.EXPECTED_CHARS[0])
-        val period = email.contains(this.EXPECTED_CHARS[1])
+        val atSign = email.contains(EXPECTED_CHARS[0])
         val emailLength = when {
-            email.length < 10 -> false
-            email.length >= 200 -> false
+            email.length < MIN_EMAIL_LENGTH -> false
+            email.length >= MAX_EMAIL_LENGTH -> false
             else -> true
         }
         var username: String = ""
@@ -28,13 +27,17 @@ class EmailValidation : Validation() {
                 }
             }
 
-            validDomain = domain.contains(this.EXPECTED_CHARS[1])
+            validDomain = domain.contains(EXPECTED_CHARS[1]) && domain.length >= MIN_DOMAIN_LENGTH
+            validUsername = username.length >= MIN_USERNAME_LENGTH
         }
 
+        println("###############################")
+        println("Contém arroba: $atSign")
+        println("email maior que 10 caracteres: $emailLength")
+        println("nome de usuário válido: $validUsername: $username")
+        println("domínio válido: $validDomain: $domain")
+        println("###############################")
 
-        println(username)
-        println(domain)
-
-        return atSign && period && emailLength && username.length >= 3 && domain.length >= 5
+        return atSign && emailLength && validUsername && validDomain
     }
 }
