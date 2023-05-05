@@ -1,11 +1,11 @@
 package com.usjt.projetoa3.model
 
-class EmailValidation {
-    val MIN_EMAIL_LENGTH = 10
-    val MIN_USERNAME_LENGTH = 3
-    val MIN_DOMAIN_LENGTH = 5
-    val MAX_EMAIL_LENGTH = 128
-    val EXPECTED_CHARS = arrayOf('@', '.')
+class EmailValidation: DataValidation() {
+    private val MIN_EMAIL_LENGTH = 10
+    private val MIN_USERNAME_LENGTH = 3
+    private val MIN_DOMAIN_LENGTH = 5
+    private val MAX_EMAIL_LENGTH = 128
+    private val EXPECTED_CHARS = arrayOf('@', '.')
 
     fun validateEmail(email: String): Boolean {
         val atSign = email.contains(EXPECTED_CHARS[0])
