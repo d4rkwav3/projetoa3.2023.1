@@ -24,9 +24,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.usjt.projetoa3.R
 import com.usjt.projetoa3.ui.theme.ProjetoA3Theme
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavController
+import com.usjt.projetoa3.Router
 
 @Composable
 fun ShowLogo() {
@@ -109,7 +110,8 @@ fun LoginInput(
 fun BottomButtons(
     @StringRes topButtonText: Int,
     @StringRes bottomButtonText: Int,
-    topButtonAction: () -> Unit = { }
+    topButtonAction: () -> Unit = { },
+    bottomButtonAction: () -> Unit = { }
 ) {
     Column(
         verticalArrangement = Arrangement.Bottom,
@@ -133,7 +135,7 @@ fun BottomButtons(
             textDecoration = TextDecoration.Underline,
             modifier = Modifier
                 .padding(top = 5.dp, bottom = 40.dp)
-                .clickable { /*TODO*/ }
+                .clickable { bottomButtonAction() }
         )
     }
 }
@@ -160,6 +162,7 @@ fun RegisterClickableText(
 @Composable
 fun CreateLoginScreen(
     loginViewModel: LoginViewModel = LoginViewModel(),
+    navController: NavController? = null
 ) {
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -194,6 +197,9 @@ fun CreateLoginScreen(
                             "${loginState.email}\n${loginState.password}",
                             Toast.LENGTH_SHORT
                         ).show()
+                    },
+                    bottomButtonAction = {
+                        navController?.navigate(Router.Recovery.name)
                     }
                 )
             }

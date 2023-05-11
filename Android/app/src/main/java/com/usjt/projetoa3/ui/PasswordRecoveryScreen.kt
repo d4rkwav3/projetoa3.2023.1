@@ -1,5 +1,6 @@
 package com.usjt.projetoa3.ui
 
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,15 +16,20 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.usjt.projetoa3.R
+import com.usjt.projetoa3.Router
 import com.usjt.projetoa3.ui.theme.ProjetoA3Theme
 
 @Composable
@@ -32,6 +38,8 @@ fun PasswordRecoveryInfo(
     @StringRes text: Int,
     @StringRes textFieldHint: Int,
     @StringRes iconContentDescription: Int,
+    textFieldValue: String = "",
+    textFieldOnValueChange: (String) -> Unit = {}
 ) {
     Column(
         verticalArrangement = Arrangement.Top,
@@ -52,8 +60,8 @@ fun PasswordRecoveryInfo(
             modifier = Modifier.padding(vertical = 20.dp)
         )
         TextField(
-            value = "",
-            onValueChange = { /*TODO*/ },
+            value = textFieldValue,
+            onValueChange = { new -> textFieldOnValueChange(new) },
             label = { Text(text = stringResource(id = textFieldHint)) },
             leadingIcon = {
                 Icon(
@@ -72,24 +80,50 @@ fun PasswordRecoveryInfo(
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun PasswordRecoveryPreview() {
+fun CreateRecoveryScreen(
+    recoveryViewModel: PasswordRecoveryViewModel = PasswordRecoveryViewModel(),
+    navController: NavController? = null
+) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ) {
-        ProjetoA3Theme() {
+        ProjetoA3Theme {
+            val state by recoveryViewModel.State.collectAsState()
+            val context = LocalContext.current
+
             ShowLogo()
+
             PasswordRecoveryInfo(
                 title = R.string.password_recovery_title,
                 text = R.string.password_recovery_text,
                 textFieldHint = R.string.email,
-                iconContentDescription = R.string.email_icon_description
+                iconContentDescription = R.string.email_icon_description,
+                textFieldValue = state.email,
+                textFieldOnValueChange = { recoveryViewModel.setEmailForRecovery(it) }
             )
+
             BottomButtons(
                 topButtonText = R.string.button_send_upper,
-                bottomButtonText = R.string.login_screen_text)
+                bottomButtonText = R.string.login_screen_text,
+                topButtonAction = {
+                    Toast.makeText(
+                        context,
+                        recoveryViewModel.recoveryMessage,
+                        Toast.LENGTH_LONG
+                    ).show()
+                },
+                bottomButtonAction = {
+                    navController?.navigate(Router.Login.name)
+                }
+            )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PasswordRecoveryPreview() {
+    CreateRecoveryScreen()
 }
