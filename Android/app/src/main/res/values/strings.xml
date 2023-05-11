@@ -1,9 +1,10 @@
 <resources>
     <!-- General -->
-    <string name="app_name">Projeto A3</string>
+    <string name="app_name">My Health</string>
     <string name="password_recovery_title">Recuperação de Senha</string>
     <string name="password_recovery_text">Informe seu e-mail, que lhe enviaremos um link para recuperação de senha.</string>
     <string name="email">E-mail</string>
+    <string name="password">Senha</string>
     <string name="email_icon_description">Ícone de uma carta fechada (e-mail)</string>
     
     <!--Button Text-->
@@ -17,4 +18,8 @@
     <string name="login_screen_text">Tela de Login</string>
     <string name="forgot_my_password">Esqueci minha senha</string>
     <string name="register">CADASTRE-SE</string>
+
+    <!--Hints-->
+    <string name="type_your_email">Digite seu e-mail</string>
+    <string name="type_your_password">Digite sua senha</string>
 </resources>

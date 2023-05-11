@@ -1,5 +1,6 @@
 package com.usjt.projetoa3.ui
 
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -8,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,6 +24,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.usjt.projetoa3.R
 import com.usjt.projetoa3.ui.theme.ProjetoA3Theme
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun ShowLogo() {
@@ -41,7 +46,7 @@ fun ShowLogo() {
                     .size(150.dp)
             )
             Text(
-                text = "My Health",
+                text = stringResource(id = R.string.app_name),
                 fontWeight = FontWeight.Bold,
                 textDecoration = TextDecoration.Underline,
                 textAlign = TextAlign.Center,
@@ -53,16 +58,22 @@ fun ShowLogo() {
 }
 
 @Composable
-fun LoginInput() {
+fun LoginInput(
+    emailFieldValue: String = "",
+    passwordFieldValue: String = "",
+    emailOnValueChange: (String) -> Unit = { },
+    passwordOnValueChange: (String) -> Unit = { }
+) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxWidth()
     ) {
         TextField(
-            value = "",
-            onValueChange = { /*TODO*/},
-            label = { Text(text = "E-mail") },
+            value = emailFieldValue,
+            onValueChange = { next -> emailOnValueChange(next) },
+            label = { Text(text = stringResource(id = R.string.email)) },
+            placeholder = { Text(text = stringResource(id = R.string.type_your_email)) },
             leadingIcon = { Icon(
                 imageVector = Icons.Default.Email,
                 contentDescription = "",
@@ -75,9 +86,10 @@ fun LoginInput() {
             )
         )
         TextField(
-            value = "",
-            onValueChange = { /*TODO*/},
-            label = { Text(text = "Senha") },
+            value = passwordFieldValue,
+            onValueChange = { next -> passwordOnValueChange(next) },
+            label = { Text(text = stringResource(id = R.string.password)) },
+            placeholder = { Text(text = stringResource(id = R.string.type_your_password)) },
             leadingIcon = { Icon(
                 imageVector = Icons.Default.Lock,
                 contentDescription = "",
@@ -97,6 +109,7 @@ fun LoginInput() {
 fun BottomButtons(
     @StringRes topButtonText: Int,
     @StringRes bottomButtonText: Int,
+    topButtonAction: () -> Unit = { }
 ) {
     Column(
         verticalArrangement = Arrangement.Bottom,
@@ -106,7 +119,7 @@ fun BottomButtons(
             .padding(start = 70.dp, end = 70.dp)
     ) {
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { topButtonAction() },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
@@ -144,9 +157,10 @@ fun RegisterClickableText(
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun LoginPreview() {
+fun CreateLoginScreen(
+    loginViewModel: LoginViewModel = LoginViewModel(),
+) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -157,15 +171,39 @@ fun LoginPreview() {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
+                val context = LocalContext.current
+                val loginState by loginViewModel.loginState.collectAsState()
+
                 Spacer(modifier = Modifier.height(60.dp))
-                LoginInput()
+
+                LoginInput(
+                    loginState.email,
+                    loginState.password,
+                    { loginViewModel.setUserEmail(it) },
+                    { loginViewModel.setUserPassword(it) }
+                )
+
                 Spacer(modifier = Modifier.height(40.dp))
+
                 BottomButtons(
                     topButtonText = R.string.button_sign_in_upper,
                     bottomButtonText = R.string.forgot_my_password,
+                    topButtonAction = {
+                        Toast.makeText(
+                            context,
+                            "${loginState.email}\n${loginState.password}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 )
             }
             RegisterClickableText(clickableText = R.string.register)
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LoginPreview() {
+    CreateLoginScreen()
 }
