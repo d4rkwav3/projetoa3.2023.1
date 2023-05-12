@@ -22,4 +22,11 @@
     <!--Hints-->
     <string name="type_your_email">Digite seu e-mail</string>
     <string name="type_your_password">Digite sua senha</string>
+    <string name="full_name">Nome Completo</string>
+    <string name="height">Altura</string>
+    <string name="weight">Peso</string>
+    <string name="age">Idade</string>
+    <string name="password_confirmation">Confirmação de Senha</string>
+    <string name="warning_1">*Selecione a versão que deseja utilizar:"</string>
+    <string name="warning_2">*Essa opção pode ser alterada posteriormente"</string>
 </resources>

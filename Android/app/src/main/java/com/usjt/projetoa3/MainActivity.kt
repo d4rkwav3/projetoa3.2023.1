@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.usjt.projetoa3.ui.CreateLoginScreen
+import com.usjt.projetoa3.ui.CreateNewUserScreen
 import com.usjt.projetoa3.ui.CreateRecoveryScreen
 
 class MainActivity : ComponentActivity() {
@@ -32,6 +33,9 @@ fun AppStart() {
         }
         composable(route = Router.Recovery.name) {
             CreateRecoveryScreen(navController = navigation)
+        }
+        composable(route = Router.NewAccount.name) {
+            CreateNewUserScreen(navController = navigation)
         }
     }
 

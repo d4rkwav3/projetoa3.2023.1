@@ -1,7 +1,9 @@
 package com.usjt.projetoa3.ui
 
 import android.widget.Toast
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -30,7 +32,13 @@ import androidx.navigation.NavController
 import com.usjt.projetoa3.Router
 
 @Composable
-fun ShowLogo() {
+fun ShowLogo(
+    @DrawableRes icon: Int,
+    iconSize: Int = 150,
+    iconTopPadding: Int = 60,
+    textSize: Int = 28,
+    textTopPadding: Int = 200
+) {
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -39,20 +47,20 @@ fun ShowLogo() {
         Box(
             contentAlignment = Alignment.Center
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.app_logo),
+            Image(
+                painter = painterResource(id = icon),
                 contentDescription = "My Health Logo",
                 modifier = Modifier
-                    .padding(top = 60.dp, bottom = 5.dp)
-                    .size(150.dp)
+                    .padding(top = iconTopPadding.dp, bottom = 5.dp)
+                    .size(iconSize.dp)
             )
             Text(
                 text = stringResource(id = R.string.app_name),
                 fontWeight = FontWeight.Bold,
                 textDecoration = TextDecoration.Underline,
                 textAlign = TextAlign.Center,
-                fontSize = 28.sp,
-                modifier = Modifier.padding(top = 200.dp)
+                fontSize = textSize.sp,
+                modifier = Modifier.padding(top = textTopPadding.dp)
             )
         }
     }
@@ -143,6 +151,7 @@ fun BottomButtons(
 @Composable
 fun RegisterClickableText(
     @StringRes clickableText: Int,
+    clickableAction: () -> Unit = {}
 ) {
     Column(
         verticalArrangement = Arrangement.Bottom,
@@ -154,7 +163,7 @@ fun RegisterClickableText(
             textDecoration = TextDecoration.Underline,
             modifier = Modifier
                 .padding(top = 160.dp, bottom = 40.dp)
-                .clickable { /*TODO*/ }
+                .clickable { clickableAction() }
         )
     }
 }
@@ -169,7 +178,7 @@ fun CreateLoginScreen(
         color = MaterialTheme.colors.background
     ) {
         ProjetoA3Theme {
-            ShowLogo()
+            ShowLogo(icon = R.drawable.icon)
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -203,7 +212,11 @@ fun CreateLoginScreen(
                     }
                 )
             }
-            RegisterClickableText(clickableText = R.string.register)
+            RegisterClickableText(
+                clickableText = R.string.register,
+                // Chamada segura, a função só é chamada caso exista um objeto navController
+                clickableAction = { navController?.navigate(Router.NewAccount.name) }
+            )
         }
     }
 }

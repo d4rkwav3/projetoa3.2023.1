@@ -93,7 +93,7 @@ fun CreateRecoveryScreen(
             val state by recoveryViewModel.State.collectAsState()
             val context = LocalContext.current
 
-            ShowLogo()
+            ShowLogo(icon = R.drawable.icon)
 
             PasswordRecoveryInfo(
                 title = R.string.password_recovery_title,
