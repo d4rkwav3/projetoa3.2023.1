@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -29,7 +28,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,23 +43,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.usjt.projetoa3.R
+import com.usjt.projetoa3.Router
+import com.usjt.projetoa3.data.User
+import com.usjt.projetoa3.model.DataValidation
+import com.usjt.projetoa3.model.EmailValidation
+import com.usjt.projetoa3.model.PasswordValidation
 import com.usjt.projetoa3.ui.theme.ProjetoA3Theme
+import kotlinx.coroutines.newSingleThreadContext
 
 @Composable
 fun CreateUserAccount(
-    name: String? = null,
+    userInfo: User,
+    dataValidation: DataValidation,
+    emailValidation: EmailValidation,
+    passwordValidation: PasswordValidation,
     nameOnValueChange: (String) -> Unit = {},
-    email: String? = null,
     emailOnValueChange: (String) -> Unit = {},
-    password: String? = null,
     passwordOnValueChange: (String) -> Unit = {},
     confirmPassword: String? = null,
     confirmPasswordOnValueChange: (String) -> Unit = {},
-    age: String? = null,
     ageOnValueChange: (String) -> Unit = {},
-    weight: String? = null,
     weightOnValueChange: (String) -> Unit = {},
-    height: String? = null,
     heightOnValueChange: (String) -> Unit = {},
 ) {
     Column(
@@ -72,7 +74,7 @@ fun CreateUserAccount(
             .padding(start = 40.dp, bottom = 60.dp, end = 40.dp)
     ) {
         TextField(
-            value = name ?: "",
+            value = userInfo.name ?: "",
             onValueChange = { new -> nameOnValueChange(new) },
             label = { Text(text = stringResource(id = R.string.full_name)) },
             leadingIcon = {
@@ -91,10 +93,11 @@ fun CreateUserAccount(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
             ),
+            singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
         TextField(
-            value = email ?: "",
+            value = userInfo.email ?: "",
             onValueChange = { new -> emailOnValueChange(new) },
             label = { Text(text = stringResource(id = R.string.email)) },
             leadingIcon = {
@@ -113,10 +116,11 @@ fun CreateUserAccount(
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next
             ),
+            singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
         TextField(
-            value = password ?: "",
+            value = userInfo.password ?: "",
             onValueChange = { new -> passwordOnValueChange(new) },
             label = { Text(text = stringResource(id = R.string.password)) },
             leadingIcon = { Icon(
@@ -134,6 +138,7 @@ fun CreateUserAccount(
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Next
             ),
+            singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
         TextField(
@@ -155,11 +160,12 @@ fun CreateUserAccount(
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Next
             ),
+            singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
         Row {
             TextField(
-                value = age ?: "",
+                value = userInfo.age?.toString() ?: "",
                 onValueChange = { new -> ageOnValueChange(new) },
                 label = { Text(text = stringResource(id = R.string.age)) },
                 leadingIcon = {
@@ -175,14 +181,15 @@ fun CreateUserAccount(
                     unfocusedIndicatorColor = Color.Black,
                 ),
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
+                    keyboardType = KeyboardType.NumberPassword,
                     imeAction = ImeAction.Next
                 ),
+                singleLine = true,
                 modifier = Modifier.weight(2f)
             )
             Spacer(modifier = Modifier.width(15.dp))
             TextField(
-                value = weight ?: "",
+                value = userInfo.weight?.toString() ?: "",
                 onValueChange = { new -> weightOnValueChange(new) },
                 label = { Text(text = stringResource(id = R.string.weight)) },
                 leadingIcon = {
@@ -198,15 +205,16 @@ fun CreateUserAccount(
                     unfocusedIndicatorColor = Color.Black,
                 ),
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
+                    keyboardType = KeyboardType.NumberPassword,
                     imeAction = ImeAction.Next
                 ),
+                singleLine = true,
                 modifier = Modifier.weight(2f)
             )
         }
         Row() {
             TextField(
-                value = height ?: "",
+                value = userInfo.height?.toString() ?: "",
                 onValueChange = { new -> heightOnValueChange(new) },
                 label = { Text(text = stringResource(id = R.string.height)) },
                 leadingIcon = {
@@ -222,9 +230,10 @@ fun CreateUserAccount(
                     unfocusedIndicatorColor = Color.Black,
                 ),
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
+                    keyboardType = KeyboardType.NumberPassword,
                     imeAction = ImeAction.Done
                 ),
+                singleLine = true,
                 modifier = Modifier.weight(2f)
             )
             Spacer(modifier = Modifier.width(15.dp))
@@ -292,6 +301,9 @@ fun CreateNewUserScreen(
     ) {
         ProjetoA3Theme {
             val info by newAccount.userData.collectAsState()
+            val dataCheck by newAccount.dataValidation.collectAsState()
+            val emailCheck by newAccount.emailValidation.collectAsState()
+            val passCheck by newAccount.passwordValidation.collectAsState()
             var confirmPassword by remember { mutableStateOf("") }
 
             ShowLogo(
@@ -302,28 +314,27 @@ fun CreateNewUserScreen(
                 textSize = 24
             )
             CreateUserAccount(
-                name = info.name,
+                userInfo = info,
+                dataValidation = dataCheck,
+                emailValidation = emailCheck,
+                passwordValidation = passCheck,
                 nameOnValueChange = { newAccount.setName(it) },
-                email = info.email,
                 emailOnValueChange = { newAccount.setEmail(it) },
-                password = info.password,
                 passwordOnValueChange = { newAccount.setPassword(it) },
                 confirmPassword = confirmPassword,
                 confirmPasswordOnValueChange = {
                     confirmPassword = it
                     newAccount.confirmPassword(it)
                 },
-                age = newAccount.tempAge,
                 ageOnValueChange = { newAccount.setAge(it) },
-                weight = newAccount.tempWeight,
                 weightOnValueChange = { newAccount.setWeight(it) },
-                height = newAccount.tempHeight,
-                heightOnValueChange = { newAccount.setHeight(it) },
+                heightOnValueChange = { newAccount.setHeight(it) }
             )
             AccountTypeButtons()
             BottomButtons(
                 topButtonText = R.string.button_continue_upper,
-                bottomButtonText = R.string.login_screen_text
+                bottomButtonText = R.string.login_screen_text,
+                bottomButtonAction = { navController?.navigate(Router.Login.name) }
             )
         }
     }

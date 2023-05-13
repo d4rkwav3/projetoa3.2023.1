@@ -12,13 +12,24 @@ open class DataValidation {
     protected val MAX_TEXT_LENGTH: Int = 200
     protected val MIN_AGE: Int = 13
     protected val MAX_AGE: Int = 100
-    protected val MIN_HEIGTH: Double = 1.0
-    protected val MAX_HEIGTH: Double = 2.20
-    protected val MIN_WEIGTH: Double = 45.0
-    protected val MAX_WEIGTH: Double = 150.0
+    protected val MIN_HEIGHT: Double = 1.0
+    protected val MAX_HEIGHT: Double = 2.20
+    protected val MIN_WEIGHT: Double = 45.0
+    protected val MAX_WEIGHT: Double = 150.0
+    var isNameInvalid: Boolean? = null
+    var isAgeInvalid: Boolean? = null
+    var isHeightInvalid: Boolean? = null
+    var isWeightInvalid: Boolean? = null
 
     fun checkTextLength(text: String): Boolean {
         return text.length <= this.MAX_TEXT_LENGTH
     }
 
+    fun validateHeight(height: Double): Boolean {
+        return height in MIN_HEIGHT..MAX_HEIGHT
+    }
+
+    fun validateWeight(weight: Double): Boolean {
+        return weight in MIN_WEIGHT..MAX_WEIGHT
+    }
 }
