@@ -9,6 +9,8 @@ class PasswordValidation: DataValidation() {
     private val MIN_QNTD_ALPHAS: Int = 3
     private val MIN_QNTD_SPECIAL: Int = 2
     private var passwordHash: String = ""
+    var isPasswordInvalid: Boolean = false
+    var isPasswordConfirmed: Boolean = false
 
     fun validatePassword(password: String): Boolean {
         var numberOfAlphaChars: Int = 0
@@ -33,11 +35,19 @@ class PasswordValidation: DataValidation() {
         println("Tem a quantidade mínima de caracteres? $minimumLength possui ${password.length}")
         println("########################################")
 
-        return numberOfDigits >= MIN_QNTD_DIGITS && numberOfAlphaChars >= MIN_QNTD_ALPHAS && numberOfSpecialChars >= MIN_QNTD_SPECIAL
+        isPasswordInvalid = !(numberOfDigits >= MIN_QNTD_DIGITS && numberOfAlphaChars >= MIN_QNTD_ALPHAS && numberOfSpecialChars >= MIN_QNTD_SPECIAL)
+        return isPasswordInvalid
     }
 
     fun stringToHash(password: String): String {
         passwordHash = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString()
         return passwordHash
+    }
+
+    fun confirmPassword(password1: String, password2: String): Boolean {
+        println("1 senha digitada: $password1")
+        println("2 senha digitada: $password1")
+        isPasswordConfirmed = password1 == password2
+        return isPasswordConfirmed
     }
 }

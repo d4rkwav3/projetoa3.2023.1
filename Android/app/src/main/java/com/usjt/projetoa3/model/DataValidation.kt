@@ -7,7 +7,7 @@ open class DataValidation {
     protected val allowedLowersChars = arrayOf(
         'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'y', 'w', 'z'
     )
-    protected val allowedSymbols = arrayOf('#', '!', '%', '$', '‘', '&', '+', '*', '–', '/', '=', '?', '^', '_', '`', '.', '{', '|', '}', '~')
+    protected val allowedSymbols = arrayOf('@','#', '!', '%', '$', '‘', '&', '+', '*', '–', '/', '=', '?', '^', '_', '`', '.', '{', '|', '}', '~')
     protected val allowedCharacters = allowedUpperChars + allowedLowersChars + allowedSymbols
     protected val MAX_TEXT_LENGTH: Int = 200
     protected val MIN_AGE: Int = 13
@@ -16,20 +16,32 @@ open class DataValidation {
     protected val MAX_HEIGHT: Double = 2.20
     protected val MIN_WEIGHT: Double = 45.0
     protected val MAX_WEIGHT: Double = 150.0
-    var isNameInvalid: Boolean? = null
-    var isAgeInvalid: Boolean? = null
-    var isHeightInvalid: Boolean? = null
-    var isWeightInvalid: Boolean? = null
+
+    var isNameInvalid: Boolean = false
+    var isAgeInvalid: Boolean = false
+    var isHeightInvalid: Boolean = false
+    var isWeightInvalid: Boolean = false
 
     fun checkTextLength(text: String): Boolean {
         return text.length <= this.MAX_TEXT_LENGTH
     }
 
     fun validateHeight(height: Double): Boolean {
-        return height in MIN_HEIGHT..MAX_HEIGHT
+        isHeightInvalid = height !in MIN_HEIGHT..MAX_HEIGHT
+        return isHeightInvalid
     }
 
     fun validateWeight(weight: Double): Boolean {
-        return weight in MIN_WEIGHT..MAX_WEIGHT
+        isWeightInvalid = weight !in MIN_WEIGHT..MAX_WEIGHT
+        return isWeightInvalid
+    }
+
+    fun validateAge(age: Int): Boolean {
+        isAgeInvalid = age !in MIN_AGE..MAX_AGE
+        return isAgeInvalid
+    }
+    fun validateName(name: String): Boolean {
+        isNameInvalid = name.length <= 3
+        return isNameInvalid
     }
 }

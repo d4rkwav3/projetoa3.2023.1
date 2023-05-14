@@ -44,27 +44,32 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.usjt.projetoa3.R
 import com.usjt.projetoa3.Router
-import com.usjt.projetoa3.data.User
+import com.usjt.projetoa3.data.NewUser
 import com.usjt.projetoa3.model.DataValidation
 import com.usjt.projetoa3.model.EmailValidation
 import com.usjt.projetoa3.model.PasswordValidation
 import com.usjt.projetoa3.ui.theme.ProjetoA3Theme
-import kotlinx.coroutines.newSingleThreadContext
 
 @Composable
 fun CreateUserAccount(
-    userInfo: User,
+    userInfo: NewUser,
     dataValidation: DataValidation,
     emailValidation: EmailValidation,
     passwordValidation: PasswordValidation,
     nameOnValueChange: (String) -> Unit = {},
     emailOnValueChange: (String) -> Unit = {},
     passwordOnValueChange: (String) -> Unit = {},
-    confirmPassword: String? = null,
     confirmPasswordOnValueChange: (String) -> Unit = {},
     ageOnValueChange: (String) -> Unit = {},
     weightOnValueChange: (String) -> Unit = {},
     heightOnValueChange: (String) -> Unit = {},
+    isNameInvalid: Boolean = false,
+    isEmailInvalid: Boolean = false,
+    isPasswordInvalid: Boolean = false,
+    isPasswordConfirmed: Boolean = false,
+    isAgeInvalid: Boolean = false,
+    isWeightInvalid: Boolean = false,
+    isHeightInvalid: Boolean = false
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
@@ -75,13 +80,25 @@ fun CreateUserAccount(
     ) {
         TextField(
             value = userInfo.name ?: "",
-            onValueChange = { new -> nameOnValueChange(new) },
-            label = { Text(text = stringResource(id = R.string.full_name)) },
+            onValueChange = {
+                    new -> nameOnValueChange(new)
+                    dataValidation.validateName(new)
+                            },
+            label = {
+                if(isNameInvalid) {
+                    Text(text = stringResource(id = R.string.invalid_name))
+                } else {
+                    Text(text = stringResource(id = R.string.full_name))
+                }
+                    },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Person,
                     contentDescription = "",
-                    tint = Color.Black
+                    tint = when(isNameInvalid) {
+                        false -> Color.Black
+                        true -> Color.Red
+                    }
                 )
             },
             colors = TextFieldDefaults.textFieldColors(
@@ -94,17 +111,31 @@ fun CreateUserAccount(
                 imeAction = ImeAction.Next
             ),
             singleLine = true,
-            modifier = Modifier.fillMaxWidth()
+            isError = isNameInvalid,
+            modifier = Modifier
+                .fillMaxWidth()
         )
         TextField(
             value = userInfo.email ?: "",
-            onValueChange = { new -> emailOnValueChange(new) },
-            label = { Text(text = stringResource(id = R.string.email)) },
+            onValueChange = {
+                    new -> emailOnValueChange(new)
+                    emailValidation.validateEmail(new)
+                            },
+            label = {
+                if(isEmailInvalid) {
+                    Text(text = stringResource(id = R.string.invalid_email))
+                } else {
+                    Text(text = stringResource(id = R.string.email))
+                }
+                    },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Email,
                     contentDescription = "",
-                    tint = Color.Black
+                    tint = when(isEmailInvalid) {
+                        false -> Color.Black
+                        true -> Color.Red
+                    }
                 )
             },
             colors = TextFieldDefaults.textFieldColors(
@@ -121,12 +152,24 @@ fun CreateUserAccount(
         )
         TextField(
             value = userInfo.password ?: "",
-            onValueChange = { new -> passwordOnValueChange(new) },
-            label = { Text(text = stringResource(id = R.string.password)) },
+            onValueChange = {
+                    new -> passwordOnValueChange(new)
+                    passwordValidation.validatePassword(new)
+                            },
+            label = {
+                if(isPasswordInvalid) {
+                    Text(text = stringResource(id = R.string.invalid_password))
+                } else {
+                    Text(text = stringResource(id = R.string.password))
+                }
+            },
             leadingIcon = { Icon(
                 imageVector = Icons.Default.Lock,
                 contentDescription = "",
-                tint = Color.Black
+                tint = when(isPasswordInvalid) {
+                    false -> Color.Black
+                    true -> Color.Red
+                }
             )},
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.White,
@@ -142,13 +185,25 @@ fun CreateUserAccount(
             modifier = Modifier.fillMaxWidth()
         )
         TextField(
-            value = confirmPassword ?: "",
-            onValueChange = { new -> confirmPasswordOnValueChange(new) },
-            label = { Text(text = stringResource(id = R.string.password_confirmation)) },
+            value = userInfo.confirmPassword ?: "",
+            onValueChange = {
+                    new -> confirmPasswordOnValueChange(new)
+                    passwordValidation.confirmPassword(userInfo.password ?: "", new)
+                            },
+            label = {
+                if(isPasswordConfirmed) {
+                    Text(text = stringResource(id = R.string.invalid_password))
+                } else {
+                    Text(text = stringResource(id = R.string.password_confirmation))
+                }
+            },
             leadingIcon = { Icon(
                 imageVector = Icons.Default.Lock,
                 contentDescription = "",
-                tint = Color.Black
+                tint = when(isPasswordConfirmed) {
+                    false -> Color.Black
+                    true -> Color.Red
+                }
             )},
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.White,
@@ -166,13 +221,25 @@ fun CreateUserAccount(
         Row {
             TextField(
                 value = userInfo.age?.toString() ?: "",
-                onValueChange = { new -> ageOnValueChange(new) },
-                label = { Text(text = stringResource(id = R.string.age)) },
+                onValueChange = {
+                        new -> ageOnValueChange(new)
+                        dataValidation.validateAge(new.toInt())
+                                },
+                label = {
+                    if(isAgeInvalid) {
+                        Text(text = stringResource(id = R.string.invalid_age))
+                    } else {
+                        Text(text = stringResource(id = R.string.age))
+                    }
+                },
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.DateRange,
                         contentDescription = "",
-                        tint = Color.Black
+                        tint = when(isAgeInvalid) {
+                            false -> Color.Black
+                            true -> Color.Red
+                        }
                     )
                 },
                 colors = TextFieldDefaults.textFieldColors(
@@ -185,18 +252,28 @@ fun CreateUserAccount(
                     imeAction = ImeAction.Next
                 ),
                 singleLine = true,
-                modifier = Modifier.weight(2f)
+                modifier = Modifier.weight(2f),
+                isError = isAgeInvalid
             )
             Spacer(modifier = Modifier.width(15.dp))
             TextField(
                 value = userInfo.weight?.toString() ?: "",
                 onValueChange = { new -> weightOnValueChange(new) },
-                label = { Text(text = stringResource(id = R.string.weight)) },
+                label = {
+                    if(isWeightInvalid) {
+                        Text(text = stringResource(id = R.string.invalid_weight))
+                    } else {
+                        Text(text = stringResource(id = R.string.weight))
+                    }
+                },
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.Accessibility,
                         contentDescription = "",
-                        tint = Color.Black
+                        tint = when(isWeightInvalid) {
+                            false -> Color.Black
+                            true -> Color.Red
+                        }
                     )
                 },
                 colors = TextFieldDefaults.textFieldColors(
@@ -212,16 +289,27 @@ fun CreateUserAccount(
                 modifier = Modifier.weight(2f)
             )
         }
-        Row() {
+        Row {
             TextField(
                 value = userInfo.height?.toString() ?: "",
-                onValueChange = { new -> heightOnValueChange(new) },
-                label = { Text(text = stringResource(id = R.string.height)) },
+                onValueChange = {
+                        new -> heightOnValueChange(new)
+                                },
+                label = {
+                    if(isHeightInvalid) {
+                        Text(text = stringResource(id = R.string.invalid_height))
+                    } else {
+                        Text(text = stringResource(id = R.string.height))
+                    }
+                },
                 leadingIcon = {
                     Icon(
                         painter = painterResource(id = R.drawable.altura_24dp),
                         contentDescription = "",
-                        tint = Color.Black
+                        tint = when(isHeightInvalid) {
+                            false -> Color.Black
+                            true -> Color.Red
+                        }
                     )
                 },
                 colors = TextFieldDefaults.textFieldColors(
@@ -304,7 +392,6 @@ fun CreateNewUserScreen(
             val dataCheck by newAccount.dataValidation.collectAsState()
             val emailCheck by newAccount.emailValidation.collectAsState()
             val passCheck by newAccount.passwordValidation.collectAsState()
-            var confirmPassword by remember { mutableStateOf("") }
 
             ShowLogo(
                 icon = R.drawable.icon,
@@ -321,14 +408,17 @@ fun CreateNewUserScreen(
                 nameOnValueChange = { newAccount.setName(it) },
                 emailOnValueChange = { newAccount.setEmail(it) },
                 passwordOnValueChange = { newAccount.setPassword(it) },
-                confirmPassword = confirmPassword,
-                confirmPasswordOnValueChange = {
-                    confirmPassword = it
-                    newAccount.confirmPassword(it)
-                },
+                confirmPasswordOnValueChange = { newAccount.confirmPassword(it) },
                 ageOnValueChange = { newAccount.setAge(it) },
                 weightOnValueChange = { newAccount.setWeight(it) },
-                heightOnValueChange = { newAccount.setHeight(it) }
+                heightOnValueChange = { newAccount.setHeight(it) },
+                isNameInvalid = dataCheck.isNameInvalid,
+                isEmailInvalid = emailCheck.isEmailInvalid,
+                isPasswordInvalid = passCheck.isPasswordInvalid,
+                isPasswordConfirmed = passCheck.isPasswordConfirmed,
+                isAgeInvalid = dataCheck.isAgeInvalid,
+                isWeightInvalid = dataCheck.isWeightInvalid,
+                isHeightInvalid = dataCheck.isHeightInvalid
             )
             AccountTypeButtons()
             BottomButtons(
