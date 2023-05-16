@@ -46,8 +46,8 @@ class PasswordValidation: DataValidation() {
 
     fun confirmPassword(password1: String, password2: String): Boolean {
         println("1 senha digitada: $password1")
-        println("2 senha digitada: $password1")
-        isPasswordConfirmed = password1 == password2
+        println("2 senha digitada: $password2")
+        isPasswordConfirmed = password1 != password2
         return isPasswordConfirmed
     }
 }

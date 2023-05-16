@@ -43,4 +43,12 @@ class PasswordValidationTest {
         assertEquals(testHash4, passwordValidation.stringToHash(badPassword4))
         assertEquals(testHash5, passwordValidation.stringToHash(goodPassword))
     }
+
+    @Test
+    fun confirmTwoPasswordAreEquals() {
+        val passwordValidation = PasswordValidation()
+
+        assertFalse(passwordValidation.confirmPassword("4ndro1d_R0(ks", "AndroidRocks"))
+        assertTrue(passwordValidation.confirmPassword("4ndro1d_R0(ks", "4ndro1d_R0(ks"))
+    }
 }

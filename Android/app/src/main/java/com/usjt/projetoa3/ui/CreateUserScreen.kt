@@ -1,11 +1,13 @@
 package com.usjt.projetoa3.ui
 
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
@@ -26,9 +28,6 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,6 +36,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -76,21 +76,25 @@ fun CreateUserAccount(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxWidth()
+            .height(200.dp)
             .padding(start = 40.dp, bottom = 60.dp, end = 40.dp)
     ) {
+        if(isNameInvalid)
+            Text(
+                text = stringResource(id = R.string.invalid_name),
+                color = Color.Red,
+                maxLines = 1,
+                textAlign = TextAlign.Center,
+                fontSize = 10.sp,
+                modifier = Modifier.fillMaxWidth()
+            )
         TextField(
             value = userInfo.name ?: "",
             onValueChange = {
                     new -> nameOnValueChange(new)
                     dataValidation.validateName(new)
                             },
-            label = {
-                if(isNameInvalid) {
-                    Text(text = stringResource(id = R.string.invalid_name))
-                } else {
-                    Text(text = stringResource(id = R.string.full_name))
-                }
-                    },
+            label = { Text(text = stringResource(id = R.string.full_name)) },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Person,
@@ -115,6 +119,15 @@ fun CreateUserAccount(
             modifier = Modifier
                 .fillMaxWidth()
         )
+        if(isEmailInvalid)
+            Text(
+                text = stringResource(id = R.string.invalid_email),
+                color = Color.Red,
+                maxLines = 1,
+                textAlign = TextAlign.Center,
+                fontSize = 10.sp,
+                modifier = Modifier.fillMaxWidth()
+            )
         TextField(
             value = userInfo.email ?: "",
             onValueChange = {
@@ -150,6 +163,24 @@ fun CreateUserAccount(
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
+        if(isPasswordInvalid) {
+            Text(
+                text = stringResource(id = R.string.invalid_password_1),
+                color = Color.Red,
+                maxLines = 1,
+                textAlign = TextAlign.Center,
+                fontSize = 10.sp,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Text(
+                text = stringResource(id = R.string.invalid_password_2),
+                color = Color.Red,
+                maxLines = 1,
+                textAlign = TextAlign.Center,
+                fontSize = 10.sp,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
         TextField(
             value = userInfo.password ?: "",
             onValueChange = {
@@ -158,7 +189,7 @@ fun CreateUserAccount(
                             },
             label = {
                 if(isPasswordInvalid) {
-                    Text(text = stringResource(id = R.string.invalid_password))
+                    Text(text = stringResource(id = R.string.invalid_password_1))
                 } else {
                     Text(text = stringResource(id = R.string.password))
                 }
@@ -184,6 +215,15 @@ fun CreateUserAccount(
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
+        if(isPasswordConfirmed)
+            Text(
+                text = stringResource(id = R.string.invalid_password_confirmation),
+                color = Color.Red,
+                maxLines = 1,
+                textAlign = TextAlign.Center,
+                fontSize = 10.sp,
+                modifier = Modifier.fillMaxWidth()
+            )
         TextField(
             value = userInfo.confirmPassword ?: "",
             onValueChange = {
@@ -191,11 +231,7 @@ fun CreateUserAccount(
                     passwordValidation.confirmPassword(userInfo.password ?: "", new)
                             },
             label = {
-                if(isPasswordConfirmed) {
-                    Text(text = stringResource(id = R.string.invalid_password))
-                } else {
-                    Text(text = stringResource(id = R.string.password_confirmation))
-                }
+               Text(text = stringResource(id = R.string.password_confirmation))
             },
             leadingIcon = { Icon(
                 imageVector = Icons.Default.Lock,
@@ -218,6 +254,24 @@ fun CreateUserAccount(
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
+        if(isAgeInvalid)
+            Text(
+                text = stringResource(id = R.string.invalid_age),
+                color = Color.Red,
+                maxLines = 1,
+                textAlign = TextAlign.Center,
+                fontSize = 10.sp,
+                modifier = Modifier.fillMaxWidth()
+            )
+        if(isWeightInvalid)
+            Text(
+                text = stringResource(id = R.string.invalid_weight),
+                color = Color.Red,
+                maxLines = 1,
+                textAlign = TextAlign.Center,
+                fontSize = 10.sp,
+                modifier = Modifier.fillMaxWidth()
+            )
         Row {
             TextField(
                 value = userInfo.age?.toString() ?: "",
@@ -226,11 +280,7 @@ fun CreateUserAccount(
                         dataValidation.validateAge(new.toInt())
                                 },
                 label = {
-                    if(isAgeInvalid) {
-                        Text(text = stringResource(id = R.string.invalid_age))
-                    } else {
-                        Text(text = stringResource(id = R.string.age))
-                    }
+                    Text(text = stringResource(id = R.string.age))
                 },
                 leadingIcon = {
                     Icon(
@@ -260,11 +310,7 @@ fun CreateUserAccount(
                 value = userInfo.weight?.toString() ?: "",
                 onValueChange = { new -> weightOnValueChange(new) },
                 label = {
-                    if(isWeightInvalid) {
-                        Text(text = stringResource(id = R.string.invalid_weight))
-                    } else {
-                        Text(text = stringResource(id = R.string.weight))
-                    }
+                    Text(text = stringResource(id = R.string.weight))
                 },
                 leadingIcon = {
                     Icon(
@@ -290,17 +336,22 @@ fun CreateUserAccount(
             )
         }
         Row {
+            if(isHeightInvalid)
+                Text(
+                    text = stringResource(id = R.string.invalid_height),
+                    color = Color.Red,
+                    maxLines = 1,
+                    textAlign = TextAlign.Center,
+                    fontSize = 10.sp,
+                    modifier = Modifier.fillMaxWidth()
+                )
             TextField(
                 value = userInfo.height?.toString() ?: "",
                 onValueChange = {
                         new -> heightOnValueChange(new)
                                 },
                 label = {
-                    if(isHeightInvalid) {
-                        Text(text = stringResource(id = R.string.invalid_height))
-                    } else {
-                        Text(text = stringResource(id = R.string.height))
-                    }
+                    Text(text = stringResource(id = R.string.height))
                 },
                 leadingIcon = {
                     Icon(

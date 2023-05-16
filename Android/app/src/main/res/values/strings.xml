@@ -31,10 +31,12 @@
     <string name="warning_2">*Essa opção pode ser alterada posteriormente"</string>
 
     <!--Errors-->
-    <string name="invalid_name">Nome inválido, mínimo 3 caracteres</string>
-    <string name="invalid_email">E-mail inválido</string>
-    <string name="invalid_password">Senha inválido</string>
-    <string name="invalid_age">Idade inválida</string>
-    <string name="invalid_height">Altura inválida</string>
-    <string name="invalid_weight">Peso inválido</string>
+    <string name="invalid_name">*Nome inválido, mínimo 3 caracteres.</string>
+    <string name="invalid_email">*E-mail inválido, verifique.</string>
+    <string name="invalid_password_1">*Senha inválida</string>
+    <string name="invalid_password_2">Necessário: 3 letras, 3 números, 2 caracteres especiais</string>
+    <string name="invalid_password_confirmation">*As senhas não coincidem, verifique.</string>
+    <string name="invalid_age">*Idade inválida, mínimo 13, máximo 100</string>
+    <string name="invalid_height">*Altura inválida, mínimo 0,90, máximo 2,20</string>
+    <string name="invalid_weight">*Peso inválido, mínimo 0,90, máximo 2,20</string>
 </resources>
