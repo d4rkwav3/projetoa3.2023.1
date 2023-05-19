@@ -1,10 +1,11 @@
 package com.usjt.projetoa3.ui
 
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.usjt.projetoa3.data.NewUser
+import com.usjt.projetoa3.data.UserType
 import com.usjt.projetoa3.model.DataValidation
 import com.usjt.projetoa3.model.EmailValidation
 import com.usjt.projetoa3.model.PasswordValidation
@@ -26,10 +27,6 @@ class CreateUserViewModel: ViewModel() {
     private var _passwordValidation = MutableStateFlow(PasswordValidation())
     val passwordValidation: StateFlow<PasswordValidation> = _passwordValidation.asStateFlow()
 
-    var tempAge by mutableStateOf("")
-    var tempWeight by mutableStateOf("")
-    var tempHeight by mutableStateOf("")
-
     fun setName(name: String) {
         _user.update { old -> old.copy(name = name) }
     }
@@ -47,22 +44,36 @@ class CreateUserViewModel: ViewModel() {
     }
 
     fun setAge(age: String) {
-        tempAge = age
-        _user.update { old -> old.copy(age = age.toInt()) }
-
+        _user.update { old -> old.copy(age = age) }
     }
 
     fun setHeight(height: String) {
-        tempHeight = height
-        if(height.length > 2) {
-            _user.update { old -> old.copy(height = height.replace(",", ".").toDouble()) }
-        }
+        _user.update { old -> old.copy(height = height) }
+
     }
 
     fun setWeight(weight: String) {
-        tempWeight = weight
-        if(weight.length > 2) {
-            _user.update { old -> old.copy(weight = weight.replace(",", ".").toDouble()) }
-        }
+        _user.update { old -> old.copy(weight = weight) }
     }
+
+    fun freeButtonClicked() {
+        _user.update { old -> old.copy(userType = UserType.Free) }
+        println(_user.value.userType.name)
+    }
+
+    fun paidButtonClicked() {
+        _user.update { old -> old.copy(userType = UserType.Premium) }
+        println(_user.value.userType.name)
+    }
+
+    fun getSelectedAccountType(type: String) {
+        println("Antes: ${_user.value.userType.name} : Recebido -> $type")
+        if(type == "GRATUITA") {
+            _user.update { old -> old.copy(userType = UserType.Free) }
+        } else if (type == "PAGA") {
+            _user.update { old -> old.copy(userType = UserType.Premium) }
+        }
+        println("Depois: ${_user.value.userType.name} : Recebido -> $type")
+    }
+
 }

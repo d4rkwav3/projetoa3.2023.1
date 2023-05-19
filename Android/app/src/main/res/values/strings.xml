@@ -37,6 +37,6 @@
     <string name="invalid_password_2">Necessário: 3 letras, 3 números, 2 caracteres especiais</string>
     <string name="invalid_password_confirmation">*As senhas não coincidem, verifique.</string>
     <string name="invalid_age">*Idade inválida, mínimo 13, máximo 100</string>
-    <string name="invalid_height">*Altura inválida, mínimo 0,90, máximo 2,20</string>
-    <string name="invalid_weight">*Peso inválido, mínimo 0,90, máximo 2,20</string>
+    <string name="invalid_height">*Altura inválida, mínimo 0.90, máximo 2.20</string>
+    <string name="invalid_weight">*Peso inválido, mínimo 0.90, máximo 2.20</string>
 </resources>

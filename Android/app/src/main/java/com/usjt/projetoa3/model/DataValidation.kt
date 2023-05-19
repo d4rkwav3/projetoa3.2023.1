@@ -1,5 +1,7 @@
 package com.usjt.projetoa3.model
 
+import kotlin.NumberFormatException
+
 open class DataValidation {
     protected val allowedUpperChars = arrayOf(
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'X', 'Y', 'W', 'Z'
@@ -26,22 +28,37 @@ open class DataValidation {
         return text.length <= this.MAX_TEXT_LENGTH
     }
 
-    fun validateHeight(height: Double): Boolean {
-        isHeightInvalid = height !in MIN_HEIGHT..MAX_HEIGHT
+    fun validateHeight(height: String): Boolean {
+        val heightAsDouble: Double = try {
+            height.toDouble()
+        } catch (nf: NumberFormatException) {
+            0.0
+        }
+        isHeightInvalid = heightAsDouble !in MIN_HEIGHT..MAX_HEIGHT
         return isHeightInvalid
     }
 
-    fun validateWeight(weight: Double): Boolean {
-        isWeightInvalid = weight !in MIN_WEIGHT..MAX_WEIGHT
+    fun validateWeight(weight: String): Boolean {
+        val weightToDouble: Double = try {
+            weight.toDouble()
+        } catch (nf: NumberFormatException) {
+            0.0
+        }
+        isWeightInvalid = weightToDouble !in MIN_WEIGHT..MAX_WEIGHT
         return isWeightInvalid
     }
 
-    fun validateAge(age: Int): Boolean {
-        isAgeInvalid = age !in MIN_AGE..MAX_AGE
+    fun validateAge(age: String): Boolean {
+        val ageToInt: Int = try {
+            age.toInt()
+        } catch (nf: NumberFormatException) {
+            0
+        }
+        isAgeInvalid = ageToInt !in MIN_AGE..MAX_AGE
         return isAgeInvalid
     }
     fun validateName(name: String): Boolean {
-        isNameInvalid = name.length <= 3
+        isNameInvalid = name.length < 3
         return isNameInvalid
     }
 }
