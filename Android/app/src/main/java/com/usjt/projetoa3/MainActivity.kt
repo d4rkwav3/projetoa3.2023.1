@@ -26,7 +26,7 @@ fun AppStart() {
 
     NavHost(
         navController = navigation,
-        startDestination = Router.Login.name,
+        startDestination = Router.Home.name,
     ) {
         composable(route = Router.Login.name) {
             CreateLoginScreen(navController = navigation)
