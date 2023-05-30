@@ -1,4 +1,4 @@
-package com.usjt.projetoa3.data
+package com.usjt.projetoa3.data.taco
 
 import android.content.Context
 import androidx.room.Database
@@ -10,10 +10,10 @@ import androidx.room.RoomDatabase
         Category::class,
         Food::class,
         AminoAcids::class,
-        FattyAcids::class,
+//        FattyAcids::class,
         Nutrients::class,
         Unit::class,
-        FoodInfo::class
+//        FoodInfo::class
     ],
     version = 1
 )

@@ -201,11 +201,15 @@ fun CreateLoginScreen(
                     topButtonText = R.string.button_sign_in_upper,
                     bottomButtonText = R.string.forgot_my_password,
                     topButtonAction = {
-                        Toast.makeText(
-                            context,
-                            "${loginState.email}\n${loginState.password}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        if (loginViewModel.login(loginState)) {
+                            navController?.navigate(Router.Home.name)
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "Login ou Senha incorretos!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     },
                     bottomButtonAction = {
                         navController?.navigate(Router.Recovery.name)

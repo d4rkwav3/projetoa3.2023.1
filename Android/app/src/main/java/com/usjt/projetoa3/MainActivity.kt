@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.usjt.projetoa3.ui.CreateHomeScreen
 import com.usjt.projetoa3.ui.CreateLoginScreen
 import com.usjt.projetoa3.ui.CreateNewUserScreen
 import com.usjt.projetoa3.ui.CreateRecoveryScreen
@@ -26,7 +27,7 @@ fun AppStart() {
 
     NavHost(
         navController = navigation,
-        startDestination = Router.Home.name,
+        startDestination = Router.Login.name,
     ) {
         composable(route = Router.Login.name) {
             CreateLoginScreen(navController = navigation)
@@ -36,6 +37,9 @@ fun AppStart() {
         }
         composable(route = Router.NewAccount.name) {
             CreateNewUserScreen(navController = navigation)
+        }
+        composable(route = Router.Home.name) {
+            CreateHomeScreen(navController = navigation)
         }
     }
 

@@ -1,5 +1,6 @@
 package com.usjt.projetoa3.ui
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.usjt.projetoa3.data.Login
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,5 +20,10 @@ class LoginViewModel : ViewModel() {
 
     fun setUserPassword(password: String = "") {
         _loginState.update { old -> Login(password = password, email = old.email) }
+    }
+
+    fun login(login: Login): Boolean {
+        Log.d("Login", "${login.email} : ${login.password}")
+        return login.email == "teste" && login.password == "teste"
     }
 }

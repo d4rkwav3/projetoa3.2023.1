@@ -39,4 +39,5 @@
     <string name="invalid_age">*Idade inválida, mínimo 13, máximo 100</string>
     <string name="invalid_height">*Altura inválida, mínimo 0.90, máximo 2.20</string>
     <string name="invalid_weight">*Peso inválido, mínimo 0.90, máximo 2.20</string>
+    <string name="login_error">Login ou senha incorretos</string>
 </resources>
