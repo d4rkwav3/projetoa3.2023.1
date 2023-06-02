@@ -71,7 +71,7 @@ class EmailValidation: DataValidation() {
         isEmailInvalid = if (basic)
             !(atSign && emailLength && hasWhiteSpace)
         else
-            !(atSign && emailLength && hasWhiteSpace && validUsername && validDomain && dotAfterAtSign && validFinal)
+            !(atSign && emailLength && !hasWhiteSpace && validUsername && validDomain && dotAfterAtSign && validFinal)
 
         return isEmailInvalid
     }

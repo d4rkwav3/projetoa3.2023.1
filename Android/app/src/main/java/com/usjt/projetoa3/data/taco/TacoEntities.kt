@@ -1,12 +1,10 @@
 package com.usjt.projetoa3.data.taco
 
-import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import androidx.room.Relation
+import com.usjt.projetoa3.ui.HomeUiState
 
 /**
  * De modo a facilitar a leitura da tabela taco
@@ -52,7 +50,13 @@ data class Food(
     @PrimaryKey val id: Int,
     val name: String,
     val categoryId: Int
-)
+) {
+    fun toHomeUiState(): HomeUiState = HomeUiState(
+        id = id,
+        name = name,
+        categoryId = categoryId
+    )
+}
 
 @Entity(
     tableName = "amino_acids",

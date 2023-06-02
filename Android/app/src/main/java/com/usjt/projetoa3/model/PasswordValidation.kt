@@ -28,12 +28,12 @@ class PasswordValidation: DataValidation() {
             }
         }
 
-        println("########################################")
-        println("Quantos caracteres numéricos: $numberOfDigits mínimo: $MIN_QNTD_DIGITS")
-        println("Quantos caracteres alfabéticos: $numberOfAlphaChars mínimo: $MIN_QNTD_ALPHAS")
-        println("Quantos caracteres especiais: $numberOfSpecialChars mínimo: $MIN_QNTD_SPECIAL")
-        println("Tem a quantidade mínima de caracteres? $minimumLength possui ${password.length}")
-        println("########################################")
+//        println("########################################")
+//        println("Quantos caracteres numéricos: $numberOfDigits mínimo: $MIN_QNTD_DIGITS")
+//        println("Quantos caracteres alfabéticos: $numberOfAlphaChars mínimo: $MIN_QNTD_ALPHAS")
+//        println("Quantos caracteres especiais: $numberOfSpecialChars mínimo: $MIN_QNTD_SPECIAL")
+//        println("Tem a quantidade mínima de caracteres? $minimumLength possui ${password.length}")
+//        println("########################################")
 
         isPasswordInvalid = !(numberOfDigits >= MIN_QNTD_DIGITS && numberOfAlphaChars >= MIN_QNTD_ALPHAS && numberOfSpecialChars >= MIN_QNTD_SPECIAL)
         return isPasswordInvalid
@@ -45,8 +45,8 @@ class PasswordValidation: DataValidation() {
     }
 
     fun confirmPassword(password1: String, password2: String): Boolean {
-        println("1 senha digitada: $password1")
-        println("2 senha digitada: $password2")
+//        println("1 senha digitada: $password1")
+//        println("2 senha digitada: $password2")
         isPasswordConfirmed = password1 != password2
         return isPasswordConfirmed
     }

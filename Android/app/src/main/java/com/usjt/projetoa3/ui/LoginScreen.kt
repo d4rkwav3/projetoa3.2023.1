@@ -27,9 +27,18 @@ import androidx.compose.ui.unit.sp
 import com.usjt.projetoa3.R
 import com.usjt.projetoa3.ui.theme.ProjetoA3Theme
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.usjt.projetoa3.AppViewModelProvider
 import com.usjt.projetoa3.Router
+import com.usjt.projetoa3.data.user.User
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @Composable
 fun ShowLogo(
@@ -119,7 +128,8 @@ fun BottomButtons(
     @StringRes topButtonText: Int,
     @StringRes bottomButtonText: Int,
     topButtonAction: () -> Unit = { },
-    bottomButtonAction: () -> Unit = { }
+    bottomButtonAction: () -> Unit = { },
+    isTopButtonEnabled: Boolean = true
 ) {
     Column(
         verticalArrangement = Arrangement.Bottom,
@@ -129,6 +139,11 @@ fun BottomButtons(
             .padding(start = 70.dp, end = 70.dp)
     ) {
         Button(
+            enabled = isTopButtonEnabled,
+//            colors = ButtonDefaults.buttonColors(
+//                disabledBackgroundColor = Color.DarkGray,
+//                disabledContentColor = Color.White
+//            ),
             onClick = { topButtonAction() },
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -170,7 +185,7 @@ fun RegisterClickableText(
 
 @Composable
 fun CreateLoginScreen(
-    loginViewModel: LoginViewModel = LoginViewModel(),
+    loginViewModel: LoginViewModel = viewModel(factory = AppViewModelProvider.Factory),
     navController: NavController? = null
 ) {
     Surface(
@@ -184,6 +199,7 @@ fun CreateLoginScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 val context = LocalContext.current
+                val coroutineScope = rememberCoroutineScope()
                 val loginState by loginViewModel.loginState.collectAsState()
 
                 Spacer(modifier = Modifier.height(60.dp))
@@ -201,8 +217,8 @@ fun CreateLoginScreen(
                     topButtonText = R.string.button_sign_in_upper,
                     bottomButtonText = R.string.forgot_my_password,
                     topButtonAction = {
-                        if (loginViewModel.login(loginState)) {
-                            navController?.navigate(Router.Home.name)
+                        if (loginViewModel.checkUser()) {
+                                navController?.navigate(Router.Home.name)
                         } else {
                             Toast.makeText(
                                 context,

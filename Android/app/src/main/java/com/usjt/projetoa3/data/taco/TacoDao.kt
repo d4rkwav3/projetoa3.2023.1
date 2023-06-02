@@ -2,7 +2,6 @@ package com.usjt.projetoa3.data.taco
 
 import androidx.room.Dao
 import androidx.room.Query
-import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 
 @Dao

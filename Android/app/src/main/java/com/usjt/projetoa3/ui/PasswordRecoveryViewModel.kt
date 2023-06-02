@@ -1,7 +1,6 @@
 package com.usjt.projetoa3.ui
 
 import androidx.lifecycle.ViewModel
-import com.usjt.projetoa3.data.Login
 import com.usjt.projetoa3.data.Recover
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

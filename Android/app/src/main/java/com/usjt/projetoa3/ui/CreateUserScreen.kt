@@ -34,6 +34,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,7 +50,9 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.usjt.projetoa3.AppViewModelProvider
 import com.usjt.projetoa3.R
 import com.usjt.projetoa3.Router
 import com.usjt.projetoa3.data.NewUser
@@ -57,6 +60,7 @@ import com.usjt.projetoa3.model.DataValidation
 import com.usjt.projetoa3.model.EmailValidation
 import com.usjt.projetoa3.model.PasswordValidation
 import com.usjt.projetoa3.ui.theme.ProjetoA3Theme
+import kotlinx.coroutines.launch
 
 @Composable
 fun CreateUserAccount(
@@ -97,10 +101,11 @@ fun CreateUserAccount(
                 modifier = Modifier.fillMaxWidth()
             )
         TextField(
-            value = userInfo.name ?: "",
+            value = userInfo.name,
             onValueChange = {
                     new -> nameOnValueChange(new)
                     dataValidation.validateName(new)
+                    println(userInfo.isValid())
                             },
             label = { Text(text = stringResource(id = R.string.full_name)) },
             leadingIcon = {
@@ -137,7 +142,7 @@ fun CreateUserAccount(
                 modifier = Modifier.fillMaxWidth()
             )
         TextField(
-            value = userInfo.email ?: "",
+            value = userInfo.email,
             onValueChange = {
                     new -> emailOnValueChange(new)
                     emailValidation.validateEmail(new)
@@ -190,7 +195,7 @@ fun CreateUserAccount(
             )
         }
         TextField(
-            value = userInfo.password ?: "",
+            value = userInfo.password,
             onValueChange = {
                     new -> passwordOnValueChange(new)
                     passwordValidation.validatePassword(new)
@@ -233,10 +238,10 @@ fun CreateUserAccount(
                 modifier = Modifier.fillMaxWidth()
             )
         TextField(
-            value = userInfo.confirmPassword ?: "",
+            value = userInfo.confirmPassword,
             onValueChange = {
                     new -> confirmPasswordOnValueChange(new)
-                    passwordValidation.confirmPassword(userInfo.password ?: "", new)
+                    passwordValidation.confirmPassword(userInfo.password, new)
                             },
             label = {
                Text(text = stringResource(id = R.string.password_confirmation))
@@ -282,7 +287,7 @@ fun CreateUserAccount(
             )
         Row {
             TextField(
-                value = userInfo.age ?: "",
+                value = userInfo.age,
                 onValueChange = {
                         new -> ageOnValueChange(new)
                         dataValidation.validateAge(new)
@@ -315,7 +320,7 @@ fun CreateUserAccount(
             )
             Spacer(modifier = Modifier.width(15.dp))
             TextField(
-                value = userInfo.weight ?: "",
+                value = userInfo.weight,
                 onValueChange = {
                         new -> weightOnValueChange(new)
                         dataValidation.validateWeight(new)
@@ -357,7 +362,7 @@ fun CreateUserAccount(
             )
         Row {
             TextField(
-                value = userInfo.height ?: "",
+                value = userInfo.height,
                 onValueChange = {
                         new -> heightOnValueChange(new)
                         dataValidation.validateHeight(new)
@@ -531,7 +536,7 @@ fun AccountTypeSelection(
 
 @Composable
 fun CreateNewUserScreen(
-    newAccount: CreateUserViewModel = CreateUserViewModel(),
+    newAccount: CreateUserViewModel = viewModel(factory = AppViewModelProvider.Factory),
     navController: NavController? = null
 ) {
     Surface(
@@ -543,6 +548,7 @@ fun CreateNewUserScreen(
             val dataCheck by newAccount.dataValidation.collectAsState()
             val emailCheck by newAccount.emailValidation.collectAsState()
             val passCheck by newAccount.passwordValidation.collectAsState()
+            val coroutineScope = rememberCoroutineScope()
 
             ShowLogo(
                 icon = R.drawable.icon,
@@ -577,7 +583,14 @@ fun CreateNewUserScreen(
             BottomButtons(
                 topButtonText = R.string.button_continue_upper,
                 bottomButtonText = R.string.login_screen_text,
-                bottomButtonAction = { navController?.navigate(Router.Login.name) }
+                topButtonAction = {
+                    coroutineScope.launch {
+                        newAccount.saveUser()
+                        navController?.popBackStack()
+                    }
+                                  },
+                bottomButtonAction = { navController?.navigate(Router.Login.name) },
+                isTopButtonEnabled = info.isValid()
             )
         }
     }
@@ -586,5 +599,5 @@ fun CreateNewUserScreen(
 @Preview(showBackground = true)
 @Composable
 fun CreateUserPreview() {
-    CreateNewUserScreen()
+    CreateNewUserScreen(CreateUserViewModel())
 }

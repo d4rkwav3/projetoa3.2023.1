@@ -2,17 +2,16 @@ package com.usjt.projetoa3.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.usjt.projetoa3.data.taco.Food
 import com.usjt.projetoa3.data.taco.FoodRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-class HomeViewModel(foodRepo: FoodRepository) : ViewModel() {
+class HomeViewModel(private val foodRepo: FoodRepository) : ViewModel() {
 
     val homeUiState: StateFlow<HomeUiState> =
-        foodRepo.getFoodStream(256).map { HomeUiState(it.id, it.name, it.categoryId) }
+        foodRepo.getFoodStream(256).map { it.toHomeUiState() }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
