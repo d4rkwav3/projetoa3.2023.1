@@ -7,21 +7,11 @@ import com.usjt.projetoa3.ui.LoginViewModel
 
 @Entity(tableName = "usuarios")
 data class User(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val login: String,
     @ColumnInfo(name = "senha") val password: String,
     @ColumnInfo(name = "nomeUsuario") val name: String,
     @ColumnInfo(name = "idade") val age: Byte,
     @ColumnInfo(name = "peso") val weight: Double,
     @ColumnInfo(name = "altura") val height: Double
-) {
-    fun toLoginState(): LoginViewModel.LoginUiState = LoginViewModel.LoginUiState(
-        id = id,
-        login = login,
-        password = password,
-        name = name,
-        age = age,
-        weight = weight,
-        height = height
-    )
-}
+)

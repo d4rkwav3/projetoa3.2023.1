@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class CreateUserViewModel(private val userRepo: UserRepository? = null): ViewModel() {
+class CreateUserViewModel(private val userRepo: UserRepository): ViewModel() {
     private var _user = MutableStateFlow(NewUser())
     val userData: StateFlow<NewUser> = _user.asStateFlow()
 
@@ -96,7 +96,7 @@ class CreateUserViewModel(private val userRepo: UserRepository? = null): ViewMod
                 old.copy(
                     passwordHash = passwordValidation.value.stringToHash(old.password)
                 ) }
-            userRepo!!.insertUser(_user.value.toUser())
+            userRepo.insertUser(_user.value.toUser())
         }
     }
 }

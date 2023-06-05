@@ -599,5 +599,5 @@ fun CreateNewUserScreen(
 @Preview(showBackground = true)
 @Composable
 fun CreateUserPreview() {
-    CreateNewUserScreen(CreateUserViewModel())
+//    CreateNewUserScreen(CreateUserViewModel())
 }

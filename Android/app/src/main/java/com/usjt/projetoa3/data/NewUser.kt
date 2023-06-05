@@ -15,6 +15,7 @@ data class NewUser(
     var isUserValid: Boolean = false
 ) {
     fun toUser(): User = User(
+        id = 0,
         login = email,
         password = password,
         name = name,

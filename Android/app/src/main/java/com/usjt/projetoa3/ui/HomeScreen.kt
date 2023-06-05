@@ -35,52 +35,56 @@ fun CreateHomeScreen(
 //    viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory),
     navController: NavController? = null
 ) {
-    Scaffold(
-        topBar = {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
+    ProjetoA3Theme() {
+        Scaffold(
+            topBar = {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier
+                        .background(MaterialTheme.colors.primary)
+                        .height(64.dp)
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        text = "Dashboard",
+                        color = Color.White,
+                        fontSize = 28.sp,
+                        modifier = Modifier.padding(start = 12.dp, top = 12.dp)
+                    )
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            imageVector = Icons.Filled.MoreVert,
+                            contentDescription = "Option",
+                            tint = Color.White,
+                            modifier = Modifier
+                                .size(42.dp)
+                                .padding(top = 10.dp)
+                        )
+                    }
+                }
+            },
+            floatingActionButton = {
+                FloatingActionButton(
+                    backgroundColor = MaterialTheme.colors.primary,
+                    onClick = { /*TODO*/ }
+                ) { Icon(imageVector = Icons.Filled.Add, contentDescription = "Plus") }
+            }
+        ) {
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .background(MaterialTheme.colors.primary)
-                    .height(64.dp)
-                    .fillMaxWidth()
+                    .fillMaxSize()
+                    .padding(it)
             ) {
                 Text(
-                    text = "Dashboard",
-                    color = Color.White,
-                    fontSize = 28.sp,
-                    modifier = Modifier.padding(start = 12.dp, top = 12.dp)
+                    text = "Dashboard a implementar",
+                    textAlign = TextAlign.Center,
+                    fontSize = 48.sp,
+                    modifier = Modifier.fillMaxWidth()
                 )
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(
-                        imageVector = Icons.Filled.MoreVert,
-                        contentDescription = "Option",
-                        tint = Color.White,
-                        modifier = Modifier.size(42.dp).padding(top = 10.dp)
-                    )
-                }
             }
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                backgroundColor = MaterialTheme.colors.primary,
-                onClick = { /*TODO*/ }
-            ) { Icon(imageVector = Icons.Filled.Add, contentDescription = "Plus") }
         }
-    ) {
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it)
-        ) {
-            Text(
-                text = "Dashboard a implementar",
-                textAlign = TextAlign.Center,
-                fontSize = 48.sp,
-                modifier = Modifier.fillMaxWidth()
-            )
-    }
     }
 }
 
