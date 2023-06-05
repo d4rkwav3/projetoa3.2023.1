@@ -1,5 +1,6 @@
 package com.usjt.projetoa3.ui
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.usjt.projetoa3.data.NewUser
 import com.usjt.projetoa3.data.UserType
@@ -44,13 +45,11 @@ class CreateUserViewModel(private val userRepo: UserRepository): ViewModel() {
     }
 
     fun confirmPassword(password: String) {
-        _user.update { old -> old.copy(confirmPassword = password) }
-        if (_passwordValidation.value.confirmPassword(_user.value.password, password))
-            _user.update { old ->
-                old.copy(
-                    passwordHash = passwordValidation.value.stringToHash(old.password)
-                )
-            }
+        _user.update {
+                old -> old.copy(
+            confirmPassword = password,
+            passwordHash = passwordValidation.value.stringToHash(password)
+        ) }
     }
 
     fun setEmail(email: String) {
@@ -91,12 +90,7 @@ class CreateUserViewModel(private val userRepo: UserRepository): ViewModel() {
     }
 
     suspend fun saveUser() {
-        if (isUserValid.value) {
-            _user.update { old ->
-                old.copy(
-                    passwordHash = passwordValidation.value.stringToHash(old.password)
-                ) }
-            userRepo.insertUser(_user.value.toUser())
-        }
+//        Log.d("Cadastro", "${_user.value.password} : ${_user.value.passwordHash}")
+        userRepo.insertUser(_user.value.toUser())
     }
 }

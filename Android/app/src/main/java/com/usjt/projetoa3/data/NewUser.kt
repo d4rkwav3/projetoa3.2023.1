@@ -17,7 +17,7 @@ data class NewUser(
     fun toUser(): User = User(
         id = 0,
         login = email,
-        password = password,
+        password = passwordHash,
         name = name,
         age = age.toByte(),
         height = height.toDouble(),

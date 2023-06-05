@@ -90,6 +90,7 @@ fun LoginInput(
         TextField(
             value = emailFieldValue,
             onValueChange = { next -> emailOnValueChange(next) },
+            singleLine = true,
             label = { Text(text = stringResource(id = R.string.email)) },
             placeholder = { Text(text = stringResource(id = R.string.type_your_email)) },
             leadingIcon = { Icon(
@@ -106,6 +107,7 @@ fun LoginInput(
         TextField(
             value = passwordFieldValue,
             onValueChange = { next -> passwordOnValueChange(next) },
+            singleLine = true,
             label = { Text(text = stringResource(id = R.string.password)) },
             placeholder = { Text(text = stringResource(id = R.string.type_your_password)) },
             leadingIcon = { Icon(
