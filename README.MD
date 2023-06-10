@@ -13,8 +13,8 @@ as Unidades Currículares de:
 - [Erick de Sousa Cavalcante - RA: 821142827](https://github.com/Zhyrot)
 - [Eduarda Ferreira Galeno - RA: 821135196](https://github.com/DUDAGALENO)
 - [Gustavo de Lana Rocha - RA: 82118015](https://github.com/GuuhLana)
-- [Henrick Melo Vital RA - 821224905](https://github.com/henrickmelovital)
-- [Ygor Brancaglione Cuchi RA - 821141099](https://github.com/YgorBCuchi)
+- [Henrick Melo Vital - RA: 821224905](https://github.com/henrickmelovital)
+- [Ygor Brancaglione Cuchi - RA: 821141099](https://github.com/YgorBCuchi)
 
 ## Mapa do Repositório
 
@@ -22,9 +22,9 @@ Esse Repositório está divido em diversas pastas, cada qual com sua função es
 A seguir, uma breve descrição do conteúdo esperado de cada pasta.
 
 > **Android**
-: Essa pasta contém o projeto do aplicativo Android que está sendo desenvolvido com base na documentação do projeto.
+: Essa pasta contém o projeto do aplicativo Android que está sendo desenvolvido com base na documentação do projeto. Um prototipo funcional está disponível para testes em Releases.
 
-> **Back-End (A fazer)**
+> **Back-End**
 : Essa pasta contém o projeto do back-end, usando a framework Spring.
 
 > **Diagramas**
@@ -32,3 +32,6 @@ A seguir, uma breve descrição do conteúdo esperado de cada pasta.
 
 > **Docs**
 : Toda a documentação escrita do projeto, requisitos funcionais, plano de testes, etc.
+
+> **UI**
+: Prototipos de design da interface gráfica de usuário do aplicativo móvel.
